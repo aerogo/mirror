@@ -8,7 +8,7 @@ import (
 )
 
 // GetProperty returns the property referenced by the given path string.
-func GetProperty(root interface{}, path string) (reflect.Type, *reflect.Value, error) {
+func GetProperty(root interface{}, path string) (*reflect.StructField, reflect.Type, *reflect.Value, error) {
 	var field reflect.StructField
 	var found bool
 
@@ -32,14 +32,14 @@ func GetProperty(root interface{}, path string) (reflect.Type, *reflect.Value, e
 			part = part[:arrayStart]
 
 			if err != nil {
-				return nil, nil, err
+				return nil, nil, nil, err
 			}
 
 			// Get the slice first
 			field, found = t.FieldByName(part)
 
 			if !found {
-				return nil, nil, errors.New("Field '" + part + "' does not exist in type " + t.Name())
+				return nil, nil, nil, errors.New("Field '" + part + "' does not exist in type " + t.Name())
 			}
 
 			v = reflect.Indirect(v.FieldByName(field.Name))
@@ -52,7 +52,7 @@ func GetProperty(root interface{}, path string) (reflect.Type, *reflect.Value, e
 			field, found = t.FieldByName(part)
 
 			if !found {
-				return nil, nil, errors.New("Field '" + part + "' does not exist in type " + t.Name())
+				return nil, nil, nil, errors.New("Field '" + part + "' does not exist in type " + t.Name())
 			}
 
 			t = field.Type
@@ -64,5 +64,5 @@ func GetProperty(root interface{}, path string) (reflect.Type, *reflect.Value, e
 		}
 	}
 
-	return t, &v, nil
+	return &field, t, &v, nil
 }

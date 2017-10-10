@@ -1,4 +1,5 @@
 # mirror
+
 Reflect utilities for Go data types.
 
 ## API
@@ -6,13 +7,13 @@ Reflect utilities for Go data types.
 ### GetProperty
 
 ```go
-dataType, value, err := mirror.GetProperty(movie, "Title")
+field, dataType, value, err := mirror.GetProperty(movie, "Title")
 ```
 
 ```go
-dataType, value, err := mirror.GetProperty(movie, "Director.Name")
+field, dataType, value, err := mirror.GetProperty(movie, "Director.Name")
 ```
 
 ```go
-dataType, value, err := mirror.GetProperty(movie, "Actors[0].Name")
+field, dataType, value, err := mirror.GetProperty(movie, "Actors[0].Name")
 ```

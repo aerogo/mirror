@@ -27,44 +27,51 @@ func TestGetProperty(t *testing.T) {
 	}
 
 	// Direct descendant
-	dataType, value, err := mirror.GetProperty(movie, "Title")
+	field, dataType, value, err := mirror.GetProperty(movie, "Title")
 	assert.NoError(t, err)
+	assert.Equal(t, "Title", field.Name)
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "The Last Samurai", value.String())
 
 	// Direct descendant
-	dataType, value, err = mirror.GetProperty(movie, "Director.Name")
+	field, dataType, value, err = mirror.GetProperty(movie, "Director.Name")
 	assert.NoError(t, err)
+	assert.Equal(t, "Name", field.Name)
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "Edward Zwick", value.String())
 
 	// Array index
-	dataType, value, err = mirror.GetProperty(movie, "Actors[0]")
+	field, dataType, value, err = mirror.GetProperty(movie, "Actors[0]")
 	assert.NoError(t, err)
+	assert.Equal(t, "Actors", field.Name)
 	assert.Equal(t, "Person", dataType.Name())
 	assert.Equal(t, *movie.Actors[0], value.Interface())
 
 	// Field of array index
-	dataType, value, err = mirror.GetProperty(movie, "Actors[0].Name")
+	field, dataType, value, err = mirror.GetProperty(movie, "Actors[0].Name")
 	assert.NoError(t, err)
+	assert.Equal(t, "Name", field.Name)
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "Tom Cruise", value.String())
 
 	// Non-existant field
-	dataType, value, err = mirror.GetProperty(movie, "Nirvana")
+	field, dataType, value, err = mirror.GetProperty(movie, "Nirvana")
 	assert.Error(t, err)
+	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Nil(t, value)
 
 	// Non-existant array field
-	dataType, value, err = mirror.GetProperty(movie, "Nirvana[0]")
+	field, dataType, value, err = mirror.GetProperty(movie, "Nirvana[0]")
 	assert.Error(t, err)
+	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Nil(t, value)
 
 	// Invalid array index
-	dataType, value, err = mirror.GetProperty(movie, "Actors[wtf]")
+	field, dataType, value, err = mirror.GetProperty(movie, "Actors[wtf]")
 	assert.Error(t, err)
+	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Nil(t, value)
 }
