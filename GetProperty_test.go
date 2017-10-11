@@ -1,6 +1,7 @@
 package mirror_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/aerogo/mirror"
@@ -59,19 +60,19 @@ func TestGetProperty(t *testing.T) {
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
-	assert.Nil(t, value)
+	assert.Equal(t, reflect.Value{}, value)
 
 	// Non-existant array field
 	field, dataType, value, err = mirror.GetProperty(movie, "Nirvana[0]")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
-	assert.Nil(t, value)
+	assert.Equal(t, reflect.Value{}, value)
 
 	// Invalid array index
 	field, dataType, value, err = mirror.GetProperty(movie, "Actors[wtf]")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
-	assert.Nil(t, value)
+	assert.Equal(t, reflect.Value{}, value)
 }
