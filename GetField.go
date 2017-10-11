@@ -59,11 +59,11 @@ func GetField(root interface{}, path string) (*reflect.StructField, reflect.Type
 				for i := 0; i < v.Len(); i++ {
 					nextV := reflect.Indirect(v.Index(i))
 
-					// elementField, found := t.FieldByName(queryKey)
+					_, found := nextV.Type().FieldByName(queryKey)
 
-					// if !found {
-					// 	return nil, nil, reflect.Value{}, errors.New("Field '" + part + "' does not exist in type " + t.Name())
-					// }
+					if !found {
+						return nil, nil, reflect.Value{}, errors.New("Field '" + part + "' does not exist in type " + t.Name())
+					}
 
 					elementField := reflect.Indirect(nextV.FieldByName(queryKey))
 

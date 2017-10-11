@@ -103,4 +103,11 @@ func TestGetField(t *testing.T) {
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Equal(t, reflect.Value{}, value)
+
+	// Invalid field name
+	field, dataType, value, err = mirror.GetField(movie, `Actors[WTF="Tom"]`)
+	assert.Error(t, err)
+	assert.Nil(t, field)
+	assert.Nil(t, dataType)
+	assert.Equal(t, reflect.Value{}, value)
 }
