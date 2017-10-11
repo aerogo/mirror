@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-// GetProperty returns the property referenced by the given path string.
-func GetProperty(root interface{}, path string) (*reflect.StructField, reflect.Type, reflect.Value, error) {
+// GetField returns the field referenced by the given path string.
+func GetField(root interface{}, path string) (*reflect.StructField, reflect.Type, reflect.Value, error) {
 	var field reflect.StructField
 	var found bool
 
