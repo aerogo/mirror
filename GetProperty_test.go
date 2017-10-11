@@ -34,7 +34,7 @@ func TestGetProperty(t *testing.T) {
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "The Last Samurai", value.String())
 
-	// Direct descendant
+	// Nested descendant
 	field, dataType, value, err = mirror.GetProperty(movie, "Director.Name")
 	assert.NoError(t, err)
 	assert.Equal(t, "Name", field.Name)
@@ -43,6 +43,13 @@ func TestGetProperty(t *testing.T) {
 
 	// Array index
 	field, dataType, value, err = mirror.GetProperty(movie, "Actors[0]")
+	assert.NoError(t, err)
+	assert.Equal(t, "Actors", field.Name)
+	assert.Equal(t, "Person", dataType.Name())
+	assert.Equal(t, *movie.Actors[0], value.Interface())
+
+	// Query
+	field, dataType, value, err = mirror.GetProperty(movie, `Actors[Name="Tom Cruise"]`)
 	assert.NoError(t, err)
 	assert.Equal(t, "Actors", field.Name)
 	assert.Equal(t, "Person", dataType.Name())
@@ -69,8 +76,29 @@ func TestGetProperty(t *testing.T) {
 	assert.Nil(t, dataType)
 	assert.Equal(t, reflect.Value{}, value)
 
+	// Non-existant array field with query
+	field, dataType, value, err = mirror.GetProperty(movie, "Nirvana[ID=0]")
+	assert.Error(t, err)
+	assert.Nil(t, field)
+	assert.Nil(t, dataType)
+	assert.Equal(t, reflect.Value{}, value)
+
 	// Invalid array index
 	field, dataType, value, err = mirror.GetProperty(movie, "Actors[wtf]")
+	assert.Error(t, err)
+	assert.Nil(t, field)
+	assert.Nil(t, dataType)
+	assert.Equal(t, reflect.Value{}, value)
+
+	// Invalid query
+	field, dataType, value, err = mirror.GetProperty(movie, `Actors[Name="Tom]`)
+	assert.Error(t, err)
+	assert.Nil(t, field)
+	assert.Nil(t, dataType)
+	assert.Equal(t, reflect.Value{}, value)
+
+	// Query with no result
+	field, dataType, value, err = mirror.GetProperty(movie, `Actors[Name="non-existent"]`)
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
