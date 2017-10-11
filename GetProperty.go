@@ -36,7 +36,6 @@ func GetProperty(root interface{}, path string) (*reflect.StructField, reflect.T
 				keyValue := strings.Split(arrayIndexString, "=")
 				queryKey := keyValue[0]
 				queryValue := keyValue[1]
-				fmt.Println(queryKey, queryValue)
 
 				var queryValueData interface{}
 				err := json.Unmarshal([]byte(queryValue), &queryValueData)
