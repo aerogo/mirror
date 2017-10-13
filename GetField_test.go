@@ -46,14 +46,14 @@ func TestGetField(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "Actors", field.Name)
 	assert.Equal(t, "Person", dataType.Name())
-	assert.Equal(t, *movie.Actors[0], value.Interface())
+	assert.Equal(t, movie.Actors[0], value.Addr().Interface())
 
 	// Query
 	field, dataType, value, err = mirror.GetField(movie, `Actors[Name="Tom Cruise"]`)
 	assert.NoError(t, err)
 	assert.Equal(t, "Actors", field.Name)
 	assert.Equal(t, "Person", dataType.Name())
-	assert.Equal(t, *movie.Actors[0], value.Interface())
+	assert.Equal(t, movie.Actors[0], value.Addr().Interface())
 
 	// Field of array index
 	field, dataType, value, err = mirror.GetField(movie, "Actors[0].Name")
