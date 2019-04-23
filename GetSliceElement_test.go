@@ -9,10 +9,10 @@ import (
 
 func TestGetSliceElement(t *testing.T) {
 	movies := []*Movie{
-		&Movie{
+		{
 			Title: "The Last Samurai",
 		},
-		&Movie{
+		{
 			Title: "Harry Potter",
 		},
 	}

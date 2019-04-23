@@ -23,7 +23,7 @@ func TestGetField(t *testing.T) {
 		Title:    "The Last Samurai",
 		Director: &Person{"Edward Zwick"},
 		Actors: []*Person{
-			&Person{"Tom Cruise"},
+			{"Tom Cruise"},
 		},
 	}
 
