@@ -1,5 +1,7 @@
 # {name}
 
+{go:header}
+
 Reflect utilities for Go data types.
 
 ## API
@@ -25,3 +27,5 @@ field, dataType, value, err := mirror.GetProperty(movie, `Actors[Name="Tom Cruis
 ```
 
 You can not use the `.` character in query strings yet. This is a bug that needs to be fixed sometime.
+
+{go:footer}
