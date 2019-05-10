@@ -34,6 +34,19 @@ func TestGetField(t *testing.T) {
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "The Last Samurai", value.String())
 
+	// Direct descendant
+	field, dataType, value, err = mirror.GetChildField(movie, "Title")
+	assert.NoError(t, err)
+	assert.Equal(t, "Title", field.Name)
+	assert.Equal(t, "string", dataType.Name())
+	assert.Equal(t, "The Last Samurai", value.String())
+
+	// Direct descendant
+	field, dataType, value, err = mirror.GetChildField(movie, "Director")
+	assert.NoError(t, err)
+	assert.Equal(t, "Director", field.Name)
+	assert.Equal(t, "Person", dataType.Name())
+
 	// Nested descendant
 	field, dataType, value, err = mirror.GetField(movie, "Director.Name")
 	assert.NoError(t, err)
@@ -64,6 +77,13 @@ func TestGetField(t *testing.T) {
 
 	// Non-existant field
 	field, dataType, value, err = mirror.GetField(movie, "Nirvana")
+	assert.Error(t, err)
+	assert.Nil(t, field)
+	assert.Nil(t, dataType)
+	assert.Equal(t, reflect.Value{}, value)
+
+	// Non-existant field
+	field, dataType, value, err = mirror.GetChildField(movie, "Nirvana")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
