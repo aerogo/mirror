@@ -22,10 +22,11 @@ func GetChildField(root interface{}, name string) (*reflect.StructField, reflect
 	}
 
 	t = field.Type
-	v = reflect.Indirect(v.FieldByName(field.Name))
+	v = v.FieldByName(field.Name)
 
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
+		v = v.Elem()
 	}
 
 	return &field, t, v, nil
