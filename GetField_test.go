@@ -75,28 +75,28 @@ func TestGetField(t *testing.T) {
 	assert.Equal(t, "string", dataType.Name())
 	assert.Equal(t, "Tom Cruise", value.String())
 
-	// Non-existant field
+	// Non-existent field
 	field, dataType, value, err = mirror.GetField(movie, "Nirvana")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Equal(t, reflect.Value{}, value)
 
-	// Non-existant field
+	// Non-existent field
 	field, dataType, value, err = mirror.GetChildField(movie, "Nirvana")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Equal(t, reflect.Value{}, value)
 
-	// Non-existant array field
+	// Non-existent array field
 	field, dataType, value, err = mirror.GetField(movie, "Nirvana[0]")
 	assert.Error(t, err)
 	assert.Nil(t, field)
 	assert.Nil(t, dataType)
 	assert.Equal(t, reflect.Value{}, value)
 
-	// Non-existant array field with query
+	// Non-existent array field with query
 	field, dataType, value, err = mirror.GetField(movie, "Nirvana[ID=0]")
 	assert.Error(t, err)
 	assert.Nil(t, field)
