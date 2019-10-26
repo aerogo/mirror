@@ -1,13 +1,12 @@
 package mirror
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
 	"strconv"
 	"strings"
-
-	jsoniter "github.com/json-iterator/go"
 )
 
 // GetSliceElement returns the element with the given index or query.
@@ -21,7 +20,7 @@ func GetSliceElement(arrayObj interface{}, arrayIndexString string) (value refle
 		queryValue := keyValue[1]
 
 		var queryValueData interface{}
-		err := jsoniter.Unmarshal([]byte(queryValue), &queryValueData)
+		err := json.Unmarshal([]byte(queryValue), &queryValueData)
 
 		if err != nil {
 			return reflect.Value{}, -1, err
